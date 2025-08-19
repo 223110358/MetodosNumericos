@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Métodos Numéricos - Herramienta Avanzada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- Chart.js para la gráfica de interpolación -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+</head>
+<body>
+
+  <!-- BARRA SUPERIOR -->
+  <header class="topbar">
+    <nav class="nav" aria-label="Menú principal">
+      <button class="nav-link" data-target="interpolacion" id="btn-interpolacion">
+        <span class="nav-icon">📈</span>
+        Interpolación
+      </button>
+      <button class="nav-link" data-target="integracion" id="btn-integracion">
+        <span class="nav-icon">∫</span>
+        Integración
+      </button>
+      <button class="nav-link" data-target="derivacion" id="btn-derivacion">
+        <span class="nav-icon">d/dx</span>
+        Derivación
+      </button>
+    </nav>
+    
+    <div class="logo-box">
+      <div class="logo-chip"></div>
+      <div class="logo-text">MetNum Pro</div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Vista: Bienvenida -->
+    <section class="panel view active" id="view-inicio">
+      <div class="welcome-header">
+        <h1>🧮 Métodos Numéricos Avanzados</h1>
+        <p class="welcome-subtitle">Herramienta completa para resolver problemas de interpolación, integración y derivación numérica</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" data-target="interpolacion">
+          <div class="feature-icon">📈</div>
+          <h3>Interpolación</h3>
+          <p>Lineal, Newton, Lagrange y Splines cúbicos con análisis de error</p>
+          <div class="feature-tags">
+            <span class="tag">Lineal</span>
+            <span class="tag">Newton</span>
+            <span class="tag">Splines</span>
+          </div>
+        </div>
+
+        <div class="feature-card" data-target="integracion">
+          <div class="feature-icon">∫</div>
+          <h3>Integración Numérica</h3>
+          <p>Trapecio, Simpson 1/3, Simpson 3/8 y Gauss-Legendre</p>
+          <div class="feature-tags">
+            <span class="tag">Trapecio</span>
+            <span class="tag">Simpson</span>
+            <span class="tag">Gauss</span>
+          </div>
+        </div>
+
+        <div class="feature-card" data-target="derivacion">
+          <div class="feature-icon">d/dx</div>
+          <h3>Derivación Numérica</h3>
+          <p>Diferencias finitas adelante, atrás y centradas hasta 4to orden</p>
+          <div class="feature-tags">
+            <span class="tag">Adelante</span>
+            <span class="tag">Centrada</span>
+            <span class="tag">Atrás</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-panel">
+        <h3>🎯 Características Principales</h3>
+        <ul class="features-list">
+          <li>✅ Validación robusta de entrada</li>
+          <li>✅ Manejo inteligente de errores</li>
+          <li>✅ Explicaciones matemáticas detalladas</li>
+          <li>✅ Comparación de métodos</li>
+          <li>✅ Análisis de precisión y error</li>
+          <li>✅ Interfaz intuitiva y responsiva</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Vista: Interpolación -->
+    <section class="panel view" id="view-interpolacion">
+      <div class="section-header">
+        <h2>📈 Interpolación de Funciones</h2>
+        <p class="section-subtitle">Encuentra valores intermedios usando diferentes métodos de interpolación</p>
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="interp-method">Método de Interpolación</label>
+          <select id="interp-method" class="input-select">
+            <option value="linear">Lineal por tramos</option>
+            <option value="newton">Polinomio de Newton</option>
+            <option value="lagrange">Polinomios de Lagrange</option>
+            <option value="spline">Splines cúbicos naturales</option>
+          </select>
+          <div class="input-help">Selecciona el método más adecuado para tus datos</div>
+        </div>
+
+        <div class="input-group">
+          <label for="interp-xq">Puntos a evaluar (xq)</label>
+          <input id="interp-xq" class="input-field" placeholder="ej. 1.5, 2.5, 3.2" />
+          <div class="input-help">Puntos donde quieres interpolar (separados por comas)</div>
+        </div>
+      </div>
+
+      <div class="data-grid">
+        <div class="input-group">
+          <label for="interp-x">Valores x (nodos)</label>
+          <textarea id="interp-x" class="input-textarea" placeholder="ej. 1, 2, 3, 4">1, 2, 3, 4</textarea>
+          <div class="input-help">Valores independientes (deben ser únicos)</div>
+        </div>
+
+        <div class="input-group">
+          <label for="interp-y">Valores y (imagen)</label>
+          <textarea id="interp-y" class="input-textarea" placeholder="ej. 1, 4, 9, 16">1, 4, 9, 16</textarea>
+          <div class="input-help">Valores dependientes correspondientes</div>
+        </div>
+      </div>
+
+      <div class="action-panel">
+        <button id="btn-interp-calculate" class="btn btn-primary">
+          <span class="btn-icon">🔢</span>
+          Calcular Interpolación
+        </button>
+        <button id="btn-interp-compare" class="btn btn-secondary">
+          <span class="btn-icon">📊</span>
+          Comparar Métodos
+        </button>
+      </div>
+
+      <div class="results-panel" id="interp-results">
+        <div class="results-header">
+          <h3>📋 Resultados</h3>
+        </div>
+        <div class="results-content" id="interp-output">
+          Configura los parámetros y presiona "Calcular" para ver los resultados
+        </div>
+        <!-- Canvas para la gráfica de interpolación (no altera tu layout) -->
+        <canvas id="interp-chart" class="results-chart" height="140" style="margin-top:12px;"></canvas>
+      </div>
+    </section>
+
+    <!-- Vista: Integración -->
+    <section class="panel view" id="view-integracion">
+      <div class="section-header">
+        <h2>∫ Integración Numérica</h2>
+        <p class="section-subtitle">Calcula integrales definidas usando métodos numéricos avanzados</p>
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="integr-method">Método de Integración</label>
+          <select id="integr-method" class="input-select">
+            <option value="trapecio">Regla del Trapecio</option>
+            <option value="simpson13">Simpson 1/3</option>
+            <option value="simpson38">Simpson 3/8</option>
+            <option value="gauss">Gauss-Legendre</option>
+          </select>
+          <div class="input-help">Cada método tiene diferente orden de precisión</div>
+        </div>
+
+        <div class="input-group">
+          <label for="integr-function">Función f(x)</label>
+          <input id="integr-function" class="input-field" placeholder="ej. x**2 + sin(x)" value="x**2" />
+          <div class="input-help">Usa: +, -, *, /, **, sin, cos, exp, log, sqrt</div>
+        </div>
+      </div>
+
+      <div class="limits-grid">
+        <div class="input-group">
+          <label for="integr-a">Límite inferior (a)</label>
+          <input id="integr-a" class="input-field" type="number" step="any" value="0" />
+        </div>
+
+        <div class="input-group">
+          <label for="integr-b">Límite superior (b)</label>
+          <input id="integr-b" class="input-field" type="number" step="any" value="1" />
+        </div>
+
+        <div class="input-group">
+          <label for="integr-n">Subdivisiones (n)</label>
+          <input id="integr-n" class="input-field" type="number" min="2" max="1000" value="10" />
+          <div class="input-help">Más subdivisiones = mayor precisión</div>
+        </div>
+      </div>
+
+      <div class="action-panel">
+        <button id="btn-integr-calculate" class="btn btn-primary">
+          <span class="btn-icon">🔢</span>
+          Calcular Integral
+        </button>
+        <button id="btn-integr-compare" class="btn btn-secondary">
+          <span class="btn-icon">📊</span>
+          Comparar Métodos
+        </button>
+      </div>
+
+      <div class="results-panel" id="integr-results">
+        <div class="results-header">
+          <h3>📋 Resultados</h3>
+        </div>
+        <div class="results-content" id="integr-output">
+          Configura los parámetros y presiona "Calcular" para ver los resultados
+        </div>
+      </div>
+    </section>
+
+    <!-- Vista: Derivación -->
+    <section class="panel view" id="view-derivacion">
+      <div class="section-header">
+        <h2>d/dx Derivación Numérica</h2>
+        <p class="section-subtitle">Calcula derivadas usando diferencias finitas con análisis de error</p>
+      </div>
+
+      <div class="input-grid">
+        <div class="input-group">
+          <label for="deriv-method">Método de Derivación</label>
+          <select id="deriv-method" class="input-select">
+            <option value="centrada">Diferencias Centradas (recomendado)</option>
+            <option value="adelante">Diferencias Hacia Adelante</option>
+            <option value="atras">Diferencias Hacia Atrás</option>
+          </select>
+          <div class="input-help">Centradas tiene mayor precisión O(h²)</div>
+        </div>
+
+        <div class="input-group">
+          <label for="deriv-function">Función f(x)</label>
+          <input id="deriv-function" class="input-field" placeholder="ej. x**3 + 2*x + 1" value="x**3" />
+          <div class="input-help">Usa: +, -, *, /, **, sin, cos, exp, log, sqrt</div>
+        </div>
+      </div>
+
+      <div class="params-grid">
+        <div class="input-group">
+          <label for="deriv-x">Punto de evaluación (x₀)</label>
+          <input id="deriv-x" class="input-field" type="number" step="any" value="1" />
+          <div class="input-help">Punto donde calcular la derivada</div>
+        </div>
+
+        <div class="input-group">
+          <label for="deriv-h">Tamaño de paso (h)</label>
+          <input id="deriv-h" class="input-field" type="number" step="any" value="0.001" min="1e-10" max="1" />
+          <div class="input-help">Paso pequeño = más precisión, pero cuidado con errores numéricos</div>
+        </div>
+
+        <div class="input-group">
+          <label for="deriv-order">Orden de derivada</label>
+          <select id="deriv-order" class="input-select">
+            <option value="1">Primera (f')</option>
+            <option value="2">Segunda (f'')</option>
+            <option value="3">Tercera (f''')</option>
+            <option value="4">Cuarta (f⁽⁴⁾)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="action-panel">
+        <button id="btn-deriv-calculate" class="btn btn-primary">
+          <span class="btn-icon">🔢</span>
+          Calcular Derivada
+        </button>
+        <button id="btn-deriv-compare" class="btn btn-secondary">
+          <span class="btn-icon">📊</span>
+          Comparar Métodos
+        </button>
+      </div>
+
+      <div class="results-panel" id="deriv-results">
+        <div class="results-header">
+          <h3>📋 Resultados</h3>
+        </div>
+        <div class="results-content" id="deriv-output">
+          Configura los parámetros y presiona "Calcular" para ver los resultados
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Loading overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Calculando...</div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
+</html>
