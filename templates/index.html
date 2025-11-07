@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/aproxa_logo.png') }}">
   <title>Métodos Numéricos - Herramienta Avanzada</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,8 +31,7 @@
     </nav>
     
     <div class="logo-box">
-      <div class="logo-chip"></div>
-      <div class="logo-text">MetNum Pro</div>
+      <h2>Aproxa</h2>
     </div>
   </header>
 
@@ -40,7 +40,7 @@
     <!-- Vista: Bienvenida -->
     <section class="panel view active" id="view-inicio">
       <div class="welcome-header">
-        <h1>🧮 Métodos Numéricos Avanzados</h1>
+               <img src="{{ url_for('static', filename='img/aproxa1.png') }}" alt="Mi Logo" class="logo-img" height="150" width="150">
         <p class="welcome-subtitle">Herramienta completa para resolver problemas de interpolación, integración y derivación numérica</p>
       </div>
 
@@ -300,7 +300,26 @@
 
   <!-- Toast notifications -->
   <div class="toast-container" id="toast-container"></div>
-
   <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+  <footer class="footer">
+  <div class="footer-container">
+    <div class="footer-logo">
+      <img src="{{ url_for('static', filename='img/aproxa_logo.png') }}" alt="Logo Aproxa">
+      <span>Aproxa</span>
+    </div>
+
+    <div class="footer-links">
+      <p>Aguillon L.</p>
+      <p>Barrera G.</p>
+      <p>Casillas E.</p>
+    </div>
+
+    <div class="footer-copy">
+      © 2025 Aproxa — Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

@@ -1064,3 +1064,69 @@ body {
     color: var(--txt);
   }
 }
+
+.footer {
+  background-color: #0d1b2a; /* Azul oscuro de tu fondo */
+  color: #bcd0c7; /* Verde grisáceo del texto */
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 4rem;
+  border-top: 2px solid #2d4159; /* Separador sutil */
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.footer-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.footer-logo span {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #9fbfa7; /* tono verde claro */
+}
+
+.footer-links {
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: #bcd0c7;
+  margin: 0 0.8rem;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.footer-links a:hover {
+  color: #91c7b1; /* verde más claro al pasar el ratón */
+}
+
+.footer-copy {
+  font-size: 0.85rem;
+  color: #809a88;
+}
+
+.logo-img {
+  border-radius: 20px;  /* 🔹 redondea las esquinas (ajusta el valor si quieres más o menos) */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);  /* 🔹 sombra sutil opcional */
+  transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+  transform: scale(1.03); /* 🔹 leve animación al pasar el cursor */
+}
